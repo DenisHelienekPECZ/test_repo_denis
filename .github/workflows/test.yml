@@ -15,3 +15,8 @@ jobs:
           cd C:\sil\gherkin_silfahren_tests
           .\.venv\Scripts\Activate.ps1
           python run_behave.py --stage silver --ini "config\denis.ini" --feature .\features\demo_template.feature --formatter html-pretty
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: behave-report
+          path: C:\sil\gherkin_silfahren_tests\output\
