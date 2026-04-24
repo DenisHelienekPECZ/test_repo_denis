@@ -16,12 +16,14 @@ jobs:
           .\.venv\Scripts\Activate.ps1
           python run_behave.py --stage silver --ini "config\denis.ini" --feature .\features\demo_template.feature --formatter html-pretty
       - name: Copy report to publish folder
+        if: always()
         shell: powershell
         run: |
           mkdir site -Force
           Copy-Item -Recurse C:\sil\gherkin_silfahren_tests\output\* site\
 
       - name: Upload Pages artifact
+        if: always()
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
