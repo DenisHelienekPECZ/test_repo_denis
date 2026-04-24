@@ -1,0 +1,15 @@
+name: Test VM Execution
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: self-hosted
+
+    steps:
+      - name: Run on VM
+        run: |
+          echo "Hello from VM"
+          hostname
+          whoami
+          touch /tmp/github_runner_test
