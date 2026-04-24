@@ -12,4 +12,7 @@ jobs:
           echo "Hello from VM"
           hostname
           whoami
-          cd  C:\sil\gherkin_silfahren_tests
+          cd C:\sil\gherkin_silfahren_tests
+          .\.venv\Scripts\Activate.ps1
+          python run_behave.py --stage silver --ini "config\denis.ini" --feature .\features\demo_template.feature --formatter html-pretty
+    shell: powershell
