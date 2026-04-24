@@ -12,3 +12,4 @@ jobs:
           echo "Hello from VM"
           hostname
           whoami
+          cd  C:\sil\gherkin_silfahren_tests
