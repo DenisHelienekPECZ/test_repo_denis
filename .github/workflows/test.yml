@@ -9,15 +9,31 @@ jobs:
     steps:
       - name: Run on VM
         run: |
-          echo "Hello from VM"
+          echo "Hello from Synopsys VM!"
           hostname
           whoami
           cd C:\sil\gherkin_silfahren_tests
           .\.venv\Scripts\Activate.ps1
           python run_behave.py --stage silver --ini "config\denis.ini" --feature .\features\demo_template.feature --formatter html-pretty
-      - name: Upload report artifact
-        if: always()
-        uses: actions/upload-artifact@v4
+      - name: Copy report to publish folder
+        shell: powershell
+        run: |
+          mkdir site -Force
+          Copy-Item -Recurse C:\sil\gherkin_silfahren_tests\output\* site\
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: behave-report
-          path: C:\sil\gherkin_silfahren_tests\output\
+          path: site
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
