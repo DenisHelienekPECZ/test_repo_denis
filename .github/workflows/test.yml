@@ -7,25 +7,25 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Run on VM
+      - name: Run tests
+        shell: powershell
         run: |
-          echo "Hello from Synopsys VM!"
-          hostname
-          whoami
           cd C:\sil\gherkin_silfahren_tests
           .\.venv\Scripts\Activate.ps1
           python run_behave.py --stage silver --ini "config\denis.ini" --feature .\features\demo_template.feature --formatter html-pretty
-      - name: Copy report to publish folder
+
+      - name: Prepare report
         if: always()
         shell: powershell
         run: |
           mkdir site -Force
           Copy-Item -Recurse C:\sil\gherkin_silfahren_tests\output\* site\
 
-      - name: Upload Pages artifact
+      - name: Upload artifact
         if: always()
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
+          name: report
           path: site
 
   deploy:
@@ -37,5 +37,16 @@ jobs:
       id-token: write
 
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: report
+          path: site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy Pages
         uses: actions/deploy-pages@v4
