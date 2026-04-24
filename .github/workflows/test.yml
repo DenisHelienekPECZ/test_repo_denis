@@ -12,4 +12,3 @@ jobs:
           echo "Hello from VM"
           hostname
           whoami
-          touch /tmp/github_runner_test
