@@ -18,7 +18,9 @@ jobs:
         if: always()
         shell: powershell
         run: |
-          mkdir site -Force
+          Remove-Item -Recurse -Force site -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory site | Out-Null
+      
           Copy-Item -Recurse C:\sil\gherkin_silfahren_tests\output\* site\
 
       - name: Upload artifact
