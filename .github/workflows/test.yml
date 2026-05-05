@@ -13,13 +13,3 @@ jobs:
           cd C:\sil\gherkin\gherkin_silfahren_tests
           .\.venv\Scripts\Activate.ps1
           python run_behave.py --stage silver_carmaker --ini "config\golden.ini" --feature .\features\golden.feature --format=html-pretty
-
-
-
-
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
-      - name: Deploy Pages
-        uses: actions/deploy-pages@v4
